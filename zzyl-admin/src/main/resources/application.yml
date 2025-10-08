@@ -140,3 +140,9 @@ aliyun:
 
 dept:
   nursingId: 201
+
+# 百度千帆大模型配置
+baidu:
+  accessKey: your_baidu_access_key
+  secretKey: your_baidu_secret_key
+  qianfanModel: ERNIE-4.0-8K-Preview
