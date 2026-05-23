@@ -1,0 +1,81 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: zzyl-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: heima123
+      MYSQL_DATABASE: zzyl
+      TZ: Asia/Shanghai
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sql/zzyl_20250102.sql:/docker-entrypoint-initdb.d/01-zzyl.sql
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - -h
+        - localhost
+        - -uroot
+        - -pheima123
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 90s
+    networks:
+      - zzyl-network
+
+  redis:
+    image: redis:7
+    container_name: zzyl-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass 123456 --appendonly yes
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - -a
+        - "123456"
+        - ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - zzyl-network
+
+  app:
+    build:
+      context: .
+      dockerfile: zzyl-admin/Dockerfile
+    image: zzyl-admin:latest
+    container_name: zzyl-admin
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod,docker
+      TZ: Asia/Shanghai
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - app-logs:/home/ruoyi/logs
+      - app-uploads:/home/ruoyi/uploadPath
+    networks:
+      - zzyl-network
+
+volumes:
+  mysql-data:
+  app-logs:
+  app-uploads:
+
+networks:
+  zzyl-network:
+    driver: bridge

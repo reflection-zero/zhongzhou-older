@@ -88,4 +88,46 @@ public class SysNoticeController extends BaseController
     {
         return toAjax(noticeService.deleteNoticeByIds(noticeIds));
     }
+
+    /**
+     * 首页顶部公告列表
+     */
+    @PreAuthorize("@ss.hasPermi('system:notice:list')")
+    @GetMapping("/listTop")
+    public TableDataInfo listTop(SysNotice notice)
+    {
+        startPage();
+        List<SysNotice> list = noticeService.selectNoticeList(notice);
+        return getDataTable(list);
+    }
+
+    /**
+     * 标记公告已读
+     */
+    @PreAuthorize("@ss.hasPermi('system:notice:list')")
+    @PostMapping("/markRead")
+    public AjaxResult markRead(Long noticeId)
+    {
+        return success();
+    }
+
+    /**
+     * 批量标记已读
+     */
+    @PreAuthorize("@ss.hasPermi('system:notice:list')")
+    @PostMapping("/markReadAll")
+    public AjaxResult markReadAll(Long[] ids)
+    {
+        return success();
+    }
+
+    /**
+     * 查询公告已读用户列表
+     */
+    @PreAuthorize("@ss.hasPermi('system:notice:list')")
+    @GetMapping("/readUsers/list")
+    public TableDataInfo listReadUsers(SysNotice notice)
+    {
+        return getDataTable(new java.util.ArrayList<>());
+    }
 }

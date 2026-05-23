@@ -1,0 +1,16 @@
+#
+# Docker 容器环境配置
+# 该文件在 application-prod.yml 之后加载（通过 SPRING_PROFILES_ACTIVE=prod,docker）
+# 只覆盖需要适配 Docker 网络的配置项
+#
+
+spring:
+  redis:
+    host: redis
+  datasource:
+    druid:
+      master:
+        url: jdbc:mysql://mysql:3306/zzyl?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+
+ruoyi:
+  profile: /home/ruoyi/uploadPath

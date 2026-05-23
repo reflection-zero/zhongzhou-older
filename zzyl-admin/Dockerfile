@@ -1,11 +1,39 @@
-# 基础镜像
+FROM maven:3-openjdk-11 AS builder
+
+WORKDIR /build
+
+# 先复制所有 POM，利用 Docker 层缓存加速依赖下载
+COPY pom.xml ./
+COPY zzyl-admin/pom.xml ./zzyl-admin/
+COPY zzyl-framework/pom.xml ./zzyl-framework/
+COPY zzyl-system/pom.xml ./zzyl-system/
+COPY zzyl-quartz/pom.xml ./zzyl-quartz/
+COPY zzyl-generator/pom.xml ./zzyl-generator/
+COPY zzyl-common/pom.xml ./zzyl-common/
+COPY zzyl-nursing-platform/pom.xml ./zzyl-nursing-platform/
+COPY zzyl-oss/pom.xml ./zzyl-oss/
+
+RUN mvn dependency:go-offline -B -DskipTests || true
+
+# 复制源码
+COPY . .
+
+# 只构建 zzyl-admin 及其依赖模块
+RUN mvn clean package -B -DskipTests -pl zzyl-admin -am
+
 FROM openjdk:11.0-jre-buster
-# 设定时区
+
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-ENV OSS_ACCESS_KEY_ID your_oss_access_key_id
-ENV OSS_ACCESS_KEY_SECRET your_oss_access_key_secret
-# 拷贝jar包
-COPY zzyl-admin.jar /app.jar
-# 入口
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+COPY --from=builder /build/zzyl-admin/target/zzyl-admin.jar /app.jar
+
+EXPOSE 9000
+
+ENTRYPOINT ["java", \
+    "-Xms256m", \
+    "-Xmx1024m", \
+    "-XX:MetaspaceSize=128m", \
+    "-XX:MaxMetaspaceSize=512m", \
+    "-Djava.security.egd=file:/dev/./urandom", \
+    "-jar", "/app.jar"]
