@@ -7,6 +7,7 @@ import user from './modules/user'
 import tagsView from './modules/tagsView'
 import permission from './modules/permission'
 import settings from './modules/settings'
+import chat from './modules/chat'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -17,6 +18,7 @@ const store = new Vuex.Store({
     lock,
     dict,
     user,
+    chat,
     tagsView,
     permission,
     settings

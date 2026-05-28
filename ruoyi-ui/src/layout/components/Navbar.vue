@@ -30,6 +30,10 @@
           <header-notice id="header-notice" class="right-menu-item hover-effect" />
         </el-tooltip>
 
+        <el-tooltip content="问题咨询" effect="dark" placement="bottom">
+          <chat-button id="chat-button" class="right-menu-item hover-effect" />
+        </el-tooltip>
+
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="hover">
@@ -69,6 +73,7 @@ import Search from '@/components/HeaderSearch'
 import RuoYiGit from '@/components/RuoYi/Git'
 import RuoYiDoc from '@/components/RuoYi/Doc'
 import HeaderNotice from './HeaderNotice'
+import ChatButton from '@/components/Chat'
 
 export default {
   components: {
@@ -82,7 +87,8 @@ export default {
     Search,
     RuoYiGit,
     RuoYiDoc,
-    HeaderNotice
+    HeaderNotice,
+    ChatButton
   },
   computed: {
     ...mapGetters([

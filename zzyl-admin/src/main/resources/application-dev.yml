@@ -202,3 +202,10 @@ baidu:
   accessKey: your_baidu_access_key
   secretKey: your_baidu_secret_key
   qianfanModel: ERNIE-4.0-8K-Preview
+
+# DeepSeek AI 配置（客服智能体）
+deepseek:
+  apiKey: ${DEEPSEEK_API_KEY:your-api-key-here}
+  model: deepseek-v4-flash
+  temperature: 0.7
+  maxTokens: 4000

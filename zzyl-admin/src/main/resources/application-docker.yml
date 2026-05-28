@@ -14,3 +14,10 @@ spring:
 
 ruoyi:
   profile: /home/ruoyi/uploadPath
+
+# DeepSeek AI 配置（客服智能体）
+deepseek:
+  apiKey: ${DEEPSEEK_API_KEY:sk-c3443bfffefa4916b9641b12b993cf03}
+  model: deepseek-v4-flash
+  temperature: 0.7
+  maxTokens: 4000
