@@ -22,3 +22,11 @@ CREATE TABLE IF NOT EXISTS chat_message (
   create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_session (session_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='聊天消息表';
+
+-- 侧边栏菜单（智能监测 > 问题咨询）
+INSERT IGNORE INTO sys_menu (menu_id, menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time)
+VALUES (2053, '问题咨询', 2037, 3, 'chat', 'nursing/chat/index', 1, 0, 'C', '0', '0', 'nursing:chat:list', 'message', 'admin', NOW());
+
+-- 授权：超管/普通/护理员/客服/院长
+INSERT IGNORE INTO sys_role_menu (role_id, menu_id) VALUES
+(1, 2053), (2, 2053), (100, 2053), (102, 2053), (103, 2053);

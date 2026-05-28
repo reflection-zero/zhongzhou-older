@@ -64,13 +64,16 @@ export const constantRoutes = [
   {
     path: '',
     component: Layout,
-    redirect: 'index',
     children: [
       {
-        path: 'index',
+        path: '',
         component: () => import('@/views/index'),
         name: 'Index',
         meta: { title: '首页', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'index',
+        redirect: '/'
       }
     ]
   },

@@ -93,7 +93,7 @@ export default {
       loading: false,
       // 验证码开关
       captchaEnabled: true,
-      // 注册开关
+      // 注册开关（从后端获取）
       register: false,
       redirect: undefined
     }
@@ -114,6 +114,7 @@ export default {
     getCode() {
       getCodeImg().then(res => {
         this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled
+        this.register = res.registerEnabled === undefined ? false : res.registerEnabled
         if (this.captchaEnabled) {
           this.codeUrl = "data:image/gif;base64," + res.img
           this.loginForm.uuid = res.uuid

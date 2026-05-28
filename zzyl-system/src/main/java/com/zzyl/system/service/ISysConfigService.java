@@ -28,10 +28,17 @@ public interface ISysConfigService
 
     /**
      * 获取验证码开关
-     * 
+     *
      * @return true开启，false关闭
      */
     public boolean selectCaptchaEnabled();
+
+    /**
+     * 获取注册开关
+     *
+     * @return true开启，false关闭
+     */
+    public boolean selectRegisterEnabled();
 
     /**
      * 查询参数配置列表

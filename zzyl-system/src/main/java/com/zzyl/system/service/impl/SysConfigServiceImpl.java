@@ -82,7 +82,7 @@ public class SysConfigServiceImpl implements ISysConfigService
 
     /**
      * 获取验证码开关
-     * 
+     *
      * @return true开启，false关闭
      */
     @Override
@@ -94,6 +94,22 @@ public class SysConfigServiceImpl implements ISysConfigService
             return true;
         }
         return Convert.toBool(captchaEnabled);
+    }
+
+    /**
+     * 获取注册开关
+     *
+     * @return true开启，false关闭
+     */
+    @Override
+    public boolean selectRegisterEnabled()
+    {
+        String registerEnabled = selectConfigByKey("sys.account.registerUser");
+        if (StringUtils.isEmpty(registerEnabled))
+        {
+            return false;
+        }
+        return Convert.toBool(registerEnabled);
     }
 
     /**
