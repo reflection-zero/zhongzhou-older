@@ -115,6 +115,12 @@ public class SecurityConfig
                     // 静态资源，可匿名访问
                     .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
                     .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()
+                    // SPA 前端路由放行（浏览器刷新时不带 token，由 Vue Router 接管）
+                    // 各 API GET 端点仍由 @PreAuthorize 方法级注解保护
+                    .antMatchers(HttpMethod.GET, "/index").permitAll()
+                    .antMatchers(HttpMethod.GET, "/lock", "/user/**").permitAll()
+                    .antMatchers(HttpMethod.GET, "/system/**", "/monitor/**", "/tool/**").permitAll()
+                    .antMatchers(HttpMethod.GET, "/nursing/**", "/liveIn/**", "/enterQuit/**", "/appointment/**", "/intelligence/**", "/chat/**").permitAll()
                     // 除上面外的所有请求全部需要鉴权认证
                     .anyRequest().authenticated();
             })

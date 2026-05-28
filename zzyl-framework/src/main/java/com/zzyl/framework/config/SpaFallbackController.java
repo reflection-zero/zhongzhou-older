@@ -1,5 +1,6 @@
 package com.zzyl.framework.config;
 
+import com.zzyl.common.annotation.Anonymous;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import java.io.IOException;
 /**
  * SPA fallback — 非 API 路径的 404 转发到 /index.html 由 Vue Router 接管
  */
+@Anonymous
 @Controller
 public class SpaFallbackController implements ErrorController {
 
